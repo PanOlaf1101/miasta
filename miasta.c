@@ -1,23 +1,42 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-int main(int argc, char *argv[]) {
-	srand((unsigned)time(NULL));
-	short gracze[(argc-1)];
-	char litery[] = "ABCDEFGHIJKLMNOPRSTUWZ";
-	short los;
-	while(short ile_liter = sizeof(litery); ile_liter > 0; ile_liter--) {
-		los = rand()%ile_liter;
-		printf("Wylosowana litera to %c\nNacisnij enter.", litery[los]);
-		getchar();
-		for(short i=1; i<argc; i++) {
-			printf("Ile %s ma teraz punktow? ", argv[i]);
-			scanf("%hd", &los);
-			gracze[i] += los;
+char litery[] = "ABCDEFGHIJKLMNOPRSTUWZ";
+typedef unsigned short us;
+us ile_liter;
+const size_t size = sizeof(litery)-1;
+void mix() {
+	char temp;
+	int random;
+	for(us i=0; i<size; i++) {
+		random = rand()%size;
+		temp = litery[random];
+		litery[random] = litery[i];
+		litery[i] = temp;
+
+	}
+}
+int main(int argc, char** argv) {
+	srand(time(NULL) ^ rand());
+	mix();
+	us* gracze = (us*) calloc(sizeof(us), argc-2);
+	us los;
+	us ile_tur = atoi(argv[1]);
+	argc-=2;
+	argv += 2;
+	ile_tur = (ile_tur > size)? size : ile_tur;
+	for(us i=0; i<ile_tur; i++) {
+		printf("Wylosowana litera to %c\n", litery[i]);
+		for(us j=0; j<argc; j++) {
+			printf("Ile %s ma teraz punktow? ", *(argv+j));
+			scanf("%hu", &los);
+			*(gracze+j) += los;
 		}
 	}
-	for(short i=1; i<argc; i++) {
-		printf("%s ma %hd punktow.\n", argv[i], gracze[i-1]);
+	for(us i=0; i<argc; i++) {
+		printf("\n%s ma %hu punktow.", *(argv+i), *(gracze+i));
 	}
+	printf("\n");
+	free(gracze);
 	return 0;
 }
