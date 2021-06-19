@@ -1,6 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#if defined(_WIN32) || defined(_WIN64)
+#define clear_screen system("cls")
+#else
+#define clear_screen system("clear")
+#endif
 typedef unsigned short us;
 char litery[] = "ABCDEFGHIJKLMNOPRSTUWZ";
 const size_t size = sizeof(litery)-1;
@@ -24,6 +29,7 @@ int main(int argc, char** argv) {
 	us los;
 	ile_tur = (ile_tur > size)? size : ile_tur;
 	for(us i=0; i<ile_tur; i++) {
+		clear_screen;
 		printf("Wylosowana litera to %c\n", litery[i]);
 		for(us j=0; j<argc; j++) {
 			printf("Ile %s ma w tej rundzie punktow? ", *(argv+j));
@@ -31,10 +37,10 @@ int main(int argc, char** argv) {
 			*(gracze+j) += los;
 		}
 	}
+	clear_screen;
 	for(us i=0; i<argc; i++) {
-		printf("\n%s ma %hu punktow.", *(argv+i), *(gracze+i));
+		printf("%s ma %hu punktow.\n", *(argv+i), *(gracze+i));
 	}
-	printf("\n");
 	free(gracze);
 	return 0;
 }
