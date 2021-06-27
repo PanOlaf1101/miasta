@@ -30,9 +30,13 @@ int main(int argc, char** argv) {
 	ile_tur = (ile_tur > size)? size : ile_tur;
 	for(us i=0; i<ile_tur; i++) {
 		clear_screen;
-		printf("Wylosowana litera to %c\n", litery[i]);
+		printf("Uwaga... ");
+		getchar();
+		if(i>0)
+			getchar();
+		printf("%i. Wylosowana litera to %c\n", i+1, litery[i]);
 		for(us j=0; j<argc; j++) {
-			printf("Ile %s ma w tej rundzie punktow? ", *(argv+j));
+			printf("%i. Ile %s ma w tej rundzie punktow? ", j+1, *(argv+j));
 			scanf("%hu", &los);
 			*(gracze+j) += los;
 		}
