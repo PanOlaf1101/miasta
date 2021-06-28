@@ -8,7 +8,7 @@
 #endif
 typedef unsigned short us;
 char litery[] = "ABCDEFGHIJKLMNOPRSTUWZ";
-const size_t size = sizeof(litery)-1;
+const us size = sizeof(litery)-1;
 void mix() {
 	srand(time(NULL) ^ rand());
 	char temp;
@@ -34,16 +34,16 @@ int main(int argc, char** argv) {
 		getchar();
 		if(i>0)
 			getchar();
-		printf("%i. Wylosowana litera to %c\n", i+1, litery[i]);
+		printf("%i/%i Wylosowana litera to %c\n", i+1, ile_tur, litery[i]);
 		for(us j=0; j<argc; j++) {
-			printf("%i. Ile %s ma w tej rundzie punktow? ", j+1, *(argv+j));
+			printf("   (%i/%i) Ile %s ma w tej rundzie punktów? ", j+1, argc, *(argv+j));
 			scanf("%hu", &los);
 			*(gracze+j) += los;
 		}
 	}
 	clear_screen;
 	for(us i=0; i<argc; i++) {
-		printf("%s ma %hu punktow.\n", *(argv+i), *(gracze+i));
+		printf("%s ma %hu punktów.\n", *(argv+i), *(gracze+i));
 	}
 	free(gracze);
 	return 0;
